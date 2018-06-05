@@ -62,7 +62,29 @@ namespace SalarySystemAPI.Models.DL
                 con.Dispose();
             }
         }
+ internal DataTable BindGrids(PL_EarDed plobj)
+        {
+            try
+            {
+                con = Connection.SetConnection();
+                cmd = new SqlCommand("SPMstEarDed", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Ind", plobj.Ind);
+                cmd.Parameters.AddWithValue("@Edcdind", plobj.Edcdind);
+                cmd.Parameters.AddWithValue("@CityCode", plobj.CityCode);
 
+                da = new SqlDataAdapter(cmd);
+                dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+            catch { return dt; }
+            finally
+            {
+                con.Close();
+                con.Dispose();
+            }
+        }
         internal DataTable SaveData(PL_EarDed plobj)
         {
             try
